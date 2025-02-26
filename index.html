@@ -3,21 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career PathFinder</title>
-    <link rel="stylesheet" href="style.css">
-
+    <title>Career Pathfinder for High School Students</title>
+    <style>
+        body{font-family:Arial,sans-serif;background-color:#f4f4f4;color:#333;margin:0;padding:0}header{background-color:#4CAF50;color:white;padding:20px;text-align:center}#career-form{margin:20px;background-color:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}form input,form select{width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:5px}form button{padding:10px 20px;background-color:#4CAF50;color:white;border:none;border-radius:5px;cursor:pointer}form button:hover{background-color:#45a049}#career-results{margin:20px;padding:20px;background-color:#fff;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}#career-list{list-style-type:none;padding-left:0}#career-list li{padding:10px;background-color:#f1f1f1;margin-bottom:5px;border-radius:5px}.spinner{border:4px solid #f3f3f3;border-top:4px solid #4CAF50;border-radius:50%;width:40px;height:40px;animation:spin 2s linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.career-item{background-color:#f9f9f9;padding:20px;margin-bottom:10px;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.1)}.career-item h3{color:#4CAF50}footer{text-align:center;margin-top:20px;font-size:14px}
+    </style>
 </head>
 <body>
-<header>
-    <h1>Career PathFinder</h1>
-    </header>
-<main>
-    <div class="container">
-        <div class="bordered-content">
-        </div>
-    </div>
-</main>
 
+<header>
+    <h1>Career Pathfinder</h1>
+    <p>Find the perfect career path for you based on your interests and skills!</p>
+</header>
+
+<section id="career-form">
+    <h2>Answer a few questions to get career suggestions</h2>
+    <form id="career-form">
+        <label for="interest">What are you interested in? (e.g., technology, health, arts)</label>
+        <input type="text" id="interest" name="interest" required>
+        <label for="skills">What skills do you have? (e.g., problem-solving, creativity)</label>
+        <input type="text" id="skills" name="skills" required>
+        <label for="education">What is your current education level? (e.g., High School, College)</label>
+        <select id="education" name="education">
+            <option value="High School">High School</option>
+            <option value="College">College</option>
+            <option value="Graduate">Graduate</option>
+        </select>
+        <label for="environment">Preferred work environment? (e.g., office, remote, outdoors)</label>
+        <input type="text" id="environment" name="environment" required>
+        <button type="submit">Get Career Suggestions</button>
+    </form>
+</section>
+
+<section id="career-results" style="display:none;">
+    <h2>Suggested Careers:</h2>
+    <ul id="career-list"></ul>
+</section>
+
+<footer>
+    <p>Powered by Career Pathfinder</p>
+</footer>
+
+<script>
+    document.getElementById("career-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const interest = document.getElementById("interest").value;
+        const skills = document.getElementById("skills").value;
+        const education = document.getElementById("education").value;
+        const environment = document.getElementById("environment").value;
+        localStorage.setItem('userPreferences', JSON.stringify({interest, skills, education, environment}));
+        document.getElementById("career-results").style.display = "none";
+        document.getElementById("career-list").innerHTML = "<div class='spinner'></div>";
+        fetchCareerSuggestions(interest, skills, education, environment);
+    });
+
+    function fetchCareerSuggestions(interest, skills, education, environment) {
+        const apiUrl = `https://example.com/api/careers?interest=${interest}&skills=${skills}&education=${education}&environment=${environment}`;
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => displayCareerSuggestions(data))
+            .catch(error => {
+                console.error("Error fetching career suggestions:", error);
+                document.getElementById("career-list").innerHTML = "Sorry, we couldn't fetch suggestions at this moment.";
+            });
+    }
+
+    function displayCareerSuggestions(data) {
+        document.getElementById("career-results").style.display = "block";
+        const resultsDiv = document.getElementById("career-list");
+        resultsDiv.innerHTML = "";
+        if (data.careers.length === 0) {
+            resultsDiv.innerHTML = "No career suggestions found based on your input.";
+        } else {
+            data.careers.forEach(career => {
+                const listItem = document.createElement("li");
+                listItem.classList.add('career-item');
+                listItem.innerHTML = `<h3>${career.name}</h3><p><strong>Description:</strong> ${career.description}</p><p><strong>Education Required:</strong> ${career.education}</p><p><strong>Salary Range:</strong> ${career.salary}</p><a href="${career.jobLink}" target="_blank">Learn More or Apply</a>`;
+                resultsDiv.appendChild(listItem);
+            });
+        }
+    }
+
+    window.onload = function() {
+        const savedPreferences = JSON.parse(localStorage.getItem('userPreferences'));
+        if (savedPreferences) {
+            document.getElementById("interest").value = savedPreferences.interest;
+            document.getElementById("skills").value = savedPreferences.skills;
+            document.getElementById("education").value = savedPreferences.education;
+            document.getElementById("environment").value = savedPreferences.environment;
+        }
+    };
+</script>
 
 </body>
 </html>
