@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Pathfinder for High School Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #000fff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        #career-form {
+            margin: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+        }
+        form button {
+            padding: 10px 20px;
+            background-color: #000fff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #45a049;
+        }
+        #career-results {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        #career-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #career-list li {
+            padding: 10px;
+            background-color: #f1f1f1;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Career Pathfinder</h1>
+    <p>Find the perfect career path for you based on your interests and skills!</p>
+</header>
+<h2>Answer a few questions to get career suggestions</h2>
+<form id="career-form">
+    <label for="interest">What are you interested in? (technology, health, arts, etc.)</label>
+    <input type="text" id="interest" name="interest" required>
+
+    <label for="skills">What skills do you have? (problem-solving, creativity, etc.)</label>
+    <input type="text" id="skills" name="skills" required>
+
+    <label for="education">What is your current education level?</label>
+    <select name="education_level" id="education" required>
+        <option value="" disabled selected>Select your education level</option>
+        <option value="ged">GED</option>
+        <option value="high_school">High School</option>
+        <option value="associate_degree">Associate's Degree</option>
+        <option value="bachelors_degree">Bachelor's Degree</option>
+        <option value="masters_degree">Master's Degree</option>
+        <option value="doctorate_degree">Doctorate</option>
+    </select>
+
+    <label for="environment">Preferred work environment? (office, remote, outdoors, etc.)</label>
+    <input type="text" id="environment" name="environment" required>
+
+    <button type="submit">Get Career Suggestions</button>
+</form>
+
+<section id="career-results">
+    <h2>Suggested Careers:</h2>
+    <ul id="career-list"></ul>
+</section>
+
+<footer>
+    <p>Powered by Career Pathfinder</p>
+</footer>
+
+<script src="Project.js"></script>
+</body>
+</html>
